@@ -13,7 +13,7 @@ application = app
 app.secret_key = os.urandom(24)  # Set a secret key for session management
 
 # Allow CORS only for API endpoints from localhost:3000 and support credentials
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
+CORS(app, resources={r"/api/*": {"origins": "http://liassides/me"}}, supports_credentials=True)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 DEEZER_API_BASE_URL = 'https://api.deezer.com'
