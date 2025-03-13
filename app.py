@@ -356,10 +356,15 @@ def reset_score():
 def serve_audio(filename):
     return send_from_directory('songs', filename)
 
+
 @app.route('/')
 @app.route('/<path:path>')
 def serve_react(path="index.html"):
-    return send_from_directory(app.static_folder, path)
+    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
+
 
 @app.route('/api/submit-guess', methods=['POST'])
 def submit_guess():
