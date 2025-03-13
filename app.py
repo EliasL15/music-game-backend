@@ -8,12 +8,12 @@ import requests
 import random
 import string
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="my-react-app/build", static_url_path="/")
 application = app
 app.secret_key = os.urandom(24)  # Set a secret key for session management
 
 # Allow CORS only for API endpoints from localhost:3000 and support credentials
-CORS(app, resources={r"/api/*": {"origins": "http://liassides.me"}}, supports_credentials=True)
+CORS(app, resources={r"/api/*": {"origins": "https://music-game-backend-production.up.railway.app"}}, supports_credentials=True)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 DEEZER_API_BASE_URL = 'https://api.deezer.com'
@@ -355,6 +355,11 @@ def reset_score():
 @app.route('/api/audio/<filename>')
 def serve_audio(filename):
     return send_from_directory('songs', filename)
+
+@app.route('/')
+@app.route('/<path:path>')
+def serve_react(path="index.html"):
+    return send_from_directory(app.static_folder, path)
 
 @app.route('/api/submit-guess', methods=['POST'])
 def submit_guess():
